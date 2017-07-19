@@ -24,6 +24,7 @@
 
     .chart text {
       font: 10px sans-serif;
+      text-align: center;
     }
 
     .chart .title {
@@ -268,7 +269,7 @@
    }
 
    var labelX = 'Outages';
-   var labelY = 'Temperature';
+   var labelY = 'Temperature (°F)';
    var svg = d3.select('.chart')
    .append('svg')
    .attr('class', 'chart')
@@ -303,7 +304,7 @@
    .call(yAxis)
    .append("text")
    .attr("transform", "rotate(-90)")
-   .attr("x", 20)
+   .attr("x", -height/2)
    .attr("y", -margin)
    .attr("dy", ".71em")
    .style("text-anchor", "middle")
@@ -314,7 +315,7 @@
                           .attr("transform", "translate(0," + height + ")")
                           .call(xAxis)
                           .append("text")
-                          .attr("x", width + 20)
+                          .attr("x", width/2)
                           .attr("y", margin - 10)
                           .attr("dy", ".71em")
                           .style("text-anchor", "middle")
