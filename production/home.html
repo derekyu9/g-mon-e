@@ -249,6 +249,7 @@
            
           </div>
           <!-- /top tiles -->
+
           
           <div class="col-md-12 col-sm-12 col-xs-12">
 <div class="chart">
@@ -305,7 +306,7 @@
    .attr("x", 20)
    .attr("y", -margin)
    .attr("dy", ".71em")
-   .style("text-anchor", "end")
+   .style("text-anchor", "middle")
    .text(labelY);
                           // x axis and label
                           svg.append("g")
@@ -316,7 +317,7 @@
                           .attr("x", width + 20)
                           .attr("y", margin - 10)
                           .attr("dy", ".71em")
-                          .style("text-anchor", "end")
+                          .style("text-anchor", "middle")
                           .text(labelX);
 
                           svg.selectAll("circle")
@@ -363,7 +364,6 @@
 
           <br />
 
-          <div class="row">
 
 
             <!--div class="col-md-4 col-sm-4 col-xs-12">
@@ -950,12 +950,7 @@
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
-          <!--div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div-->
-          <div class="clearfix"></div>
-        </footer>
+        
         <!-- /footer content -->
       </div>
     </div>
