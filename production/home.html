@@ -1,6 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+   <style>
+    .chart rect {
+      fill: steelblue;
+    }
+
+    .chart rect:hover {
+      fill: turquoise;
+    }
+
+    .chart .rectM {
+      stroke: green;
+      stroke-width: 1;
+      fill: green;
+      fill-opacity: .2;
+    }
+
+    .chart .rectM:hover {
+      fill: green;
+      fill-opacity: .5;
+    }
+
+    .chart text {
+      font: 10px sans-serif;
+    }
+
+    .chart .title {
+      font: 15px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+  </style>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
@@ -71,6 +110,7 @@
               <div class="menu_section">
                 <h3>REGIONS</h3>
                 <ul class="nav side-menu">
+                <li><a href="home.html"><i class="fa fa-lightbulb-o"></i>Home</a></li>
                   <li><a><i class="fa fa-lightbulb-o"></i>Detroit Farm<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="turbine1.html">Turbine 1</a></li>
@@ -208,74 +248,115 @@
           <!-- /top tiles -->
 
           <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="dashboard_graph">
+            <div class="chart"></div>
+  <script>
+    var height = 400;
+    var width = 600;
+    var margin = 40;
+    var data =[];
+    for(var i = 0; i < 42; i++) {
+     data.push({
+       x: Math.random() * 400,
+       y: Math.random() * 100,
+       c: Math.round(Math.random() * 5),
+       size: Math.random() * 200,
+     });
+   }
 
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Average Power Produced <small>Voltage vs. Time</small></h3>
-                  </div>
-                  <!--div class="col-md-6">
-                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                    </div>
-                  </div-->
-                </div>
+   var labelX = 'Outages';
+   var labelY = 'Temperature';
+   var svg = d3.select('.chart')
+   .append('svg')
+   .attr('class', 'chart')
+   .attr("width", width + margin + margin)
+   .attr("height", height + margin + margin)
+   .append("g")
+   .attr("transform", "translate(" + margin + "," + margin + ")");
 
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="chart_plot_01" class="demo-placeholder"></div>
-                </div>
-                <!--div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                  <div class="x_title">
-                    <h2>Top Campaign Performance</h2>
-                    <div class="clearfix"></div>
-                  </div>
+   var x = d3.scale.linear()
+   .domain([d3.min(data, function (d) { return d.x; }), d3.max(data, function (d) { return d.x; })])
+   .range([0, width]);
 
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Twitter Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Conventional Media</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Bill boards</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div-->
+   var y = d3.scale.linear()
+   .domain([d3.min(data, function (d) { return d.y; }), d3.max(data, function (d) { return d.y; })])
+   .range([height, 0]);
 
-                </div>
+   var scale = d3.scale.sqrt()
+   .domain([d3.min(data, function (d) { return d.size; }), d3.max(data, function (d) { return d.size; })])
+   .range([1, 20]);
 
-                <div class="clearfix"></div>
-              </div>
-            </div>
+   var opacity = d3.scale.sqrt()
+   .domain([d3.min(data, function (d) { return d.size; }), d3.max(data, function (d) { return d.size; })])
+   .range([1, .5]);
 
-          </div>
+   var color = d3.scale.category10();
+
+   var xAxis = d3.svg.axis().scale(x);
+   var yAxis = d3.svg.axis().scale(y).orient("left");
+
+   svg.append("g")
+   .attr("class", "y axis")
+   .call(yAxis)
+   .append("text")
+   .attr("transform", "rotate(-90)")
+   .attr("x", 20)
+   .attr("y", -margin)
+   .attr("dy", ".71em")
+   .style("text-anchor", "end")
+   .text(labelY);
+                          // x axis and label
+                          svg.append("g")
+                          .attr("class", "x axis")
+                          .attr("transform", "translate(0," + height + ")")
+                          .call(xAxis)
+                          .append("text")
+                          .attr("x", width + 20)
+                          .attr("y", margin - 10)
+                          .attr("dy", ".71em")
+                          .style("text-anchor", "end")
+                          .text(labelX);
+
+                          svg.selectAll("circle")
+                          .data(data)
+                          .enter()
+                          .insert("circle")
+                          .attr("cx", width / 2)
+                          .attr("cy", height / 2)
+                          .attr("opacity", function (d) { return opacity(d.size); })
+                          .attr("r", function (d) { return scale(d.size); })
+                          .style("fill", function (d) { return color(d.c); })
+                          .on('mouseover', function (d, i) {
+                            fade(d.c, .1);
+                          })
+                          .on('mouseout', function (d, i) {
+                           fadeOut();
+                         })
+                          .transition()
+                          .delay(function (d, i) { return x(d.x) - y(d.y); })
+                          .duration(500)
+                          .attr("cx", function (d) { return x(d.x); })
+                          .attr("cy", function (d) { return y(d.y); })
+                          .ease("bounce");
+
+
+                          function fade(c, opacity) {
+                            svg.selectAll("circle")
+                            .filter(function (d) {
+                              return d.c != c;
+                            })
+                            .transition()
+                            .style("opacity", opacity);
+                          }
+
+                          function fadeOut() {
+                            svg.selectAll("circle")
+                            .transition()
+                            .style("opacity", function (d) { opacity(d.size); });
+                          }
+                        </script>
+              
+
+               
 
           <br />
 
