@@ -347,13 +347,13 @@ if (typeof NProgress != 'undefined') {
 		
 		
 		var arr_data1 = [
-			[gd(2012, 1, 1), 17],
-			[gd(2012, 1, 2), 74],
-			[gd(2012, 1, 3), 6],
-			[gd(2012, 1, 4), 39],
-			[gd(2012, 1, 5), 20],
-			[gd(2012, 1, 6), 85],
-			[gd(2012, 1, 7), 7]
+			[10:01, 3],
+			[10:02, 2],
+			[10:03, 3],
+			[10:05, 3],
+			[10:06, 2],
+			[10:07, 0],
+			[10:09, 3]
 		];
 
 		var arr_data2 = [
@@ -446,7 +446,7 @@ if (typeof NProgress != 'undefined') {
             mode: "time",
             tickSize: [1, "day"],
             //tickLength: 10,
-            axisLabel: "Date",
+            axisLabel: "Time",
             axisLabelUseCanvas: true,
             axisLabelFontSizePixels: 12,
             axisLabelFontFamily: 'Verdana, Arial',
@@ -455,6 +455,7 @@ if (typeof NProgress != 'undefined') {
           yaxis: {
             ticks: 8,
             tickColor: "rgba(51, 51, 51, 0.06)",
+            axisLabel: "Voltage"
           },
           tooltip: false
         }
@@ -548,9 +549,10 @@ if (typeof NProgress != 'undefined') {
         
 		
         if ($("#chart_plot_01").length){
-			console.log('Plot1');
-			
-			$.plot( $("#chart_plot_01"), [ arr_data1, arr_data2 ],  chart_plot_01_settings );
+			console.log('Plot1'+'helo');
+			$.plot( $("#chart_plot_01"), [ arr_data1],  chart_plot_01_settings );
+			//console.log(arr_data1[0][0]);
+			//$.plot( $("#chart_plot_01"), [ arr_data1, arr_data2 ],  chart_plot_01_settings );
 		}
 		
 		
