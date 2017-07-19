@@ -260,15 +260,28 @@
     var margin = 40;
     var data =[];
     for(var i = 0; i < 42; i++) {
+     var x= Math.random() * 400;
+     var y= Math.random() * 100;
+     var c;
+     if(x<50){
+        c=100;
+     }
+     else if(x<100){
+        c=95;
+     }
+     else{
+        c=0;
+     }
+
      data.push({
-       x: Math.random() * 400,
-       y: Math.random() * 100,
-       c: Math.round(Math.random() * 5),
-       size: Math.random() * 200,
+       x,
+       y,
+       c,
+       size: Math.random() * 200, 
      });
    }
 
-   var labelX = 'Outages';
+   var labelX = 'Voltages (V)';
    var labelY = 'Temperature (°F)';
    var svg = d3.select('.chart')
    .append('svg')
